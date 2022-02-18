@@ -1,8 +1,7 @@
 {
   "name": "simple-interpreter-on-web",
   "version": "1.0.0",
-  "main": "index.js",
   "repository": "git@github.com:os1ma/simple-interpreter-on-web.git",
   "author": "Yuki Oshima <39944763+os1ma@users.noreply.github.com>",
-  "license": "MIT"
+  "license": "UNLICENSED"
 }
