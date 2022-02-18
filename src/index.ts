@@ -1,11 +1,17 @@
 import * as _ from 'lodash'
 
-function component() {
-  const element = document.createElement('div')
+console.log(_.join(['Hello', 'webpack'], ' '))
 
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ')
+const history = document.getElementById('history') as HTMLDivElement
+const prompt = document.getElementById('prompt') as HTMLInputElement
 
-  return element
-}
+prompt?.addEventListener('keypress', (event) => {
+  if (event.key == 'Enter') {
+    const p = document.createElement('p')
+    p.textContent = prompt.value
 
-document.body.appendChild(component())
+    history?.appendChild(p)
+
+    prompt.value = ''
+  }
+})
