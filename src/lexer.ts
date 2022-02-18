@@ -8,7 +8,7 @@ export class Lexer {
   constructor(private input: string) {}
 
   hasNextToken(): boolean {
-    return true
+    return this.currentPosition < this.input.length
   }
 
   nextToken(): Token {
