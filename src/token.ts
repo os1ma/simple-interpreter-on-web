@@ -10,6 +10,14 @@ export class Token {
   }
 }
 
-const tokenTypes = ['INTEGER', 'PLUS'] as const
+const tokenTypes = [
+  'INTEGER',
+  'PLUS',
+  'MINUS',
+  'ASTERISK',
+  'SLASH',
+  'PARAN_L',
+  'PARAN_R'
+] as const
 
 export type TokenType = typeof tokenTypes[number]

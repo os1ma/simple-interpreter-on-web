@@ -66,6 +66,35 @@ describe('nextToken', () => {
           literal: '2'
         }
       ]
+    },
+    {
+      input: '+-*/()',
+      expected: [
+        {
+          tokenType: 'PLUS',
+          literal: '+'
+        },
+        {
+          tokenType: 'MINUS',
+          literal: '-'
+        },
+        {
+          tokenType: 'ASTERISK',
+          literal: '*'
+        },
+        {
+          tokenType: 'SLASH',
+          literal: '/'
+        },
+        {
+          tokenType: 'PARAN_L',
+          literal: '('
+        },
+        {
+          tokenType: 'PARAN_R',
+          literal: ')'
+        }
+      ]
     }
   ]
 

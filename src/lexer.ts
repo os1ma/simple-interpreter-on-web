@@ -22,6 +22,21 @@ export class Lexer {
       case '+':
         token = new Token('PLUS', char)
         break
+      case '-':
+        token = new Token('MINUS', char)
+        break
+      case '*':
+        token = new Token('ASTERISK', char)
+        break
+      case '/':
+        token = new Token('SLASH', char)
+        break
+      case '(':
+        token = new Token('PARAN_L', char)
+        break
+      case ')':
+        token = new Token('PARAN_R', char)
+        break
       default:
         if (this.isDigit(char)) {
           token = new Token('INTEGER', this.readInteger())
