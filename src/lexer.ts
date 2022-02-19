@@ -1,5 +1,6 @@
 import { Token } from './token'
 
+const spaces = [' ', '\t']
 const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 export class Lexer {
@@ -13,6 +14,9 @@ export class Lexer {
 
   nextToken(): Token {
     let token: Token
+
+    this.skipSpaces()
+
     const char = this.currentChar()
     switch (char) {
       case '+':
@@ -26,7 +30,18 @@ export class Lexer {
         }
     }
     this.next()
+
+    // input の末尾にスペースがある場合に対応するため、
+    // nextToken の処理の最後でもスペースをスキップする
+    this.skipSpaces()
+
     return token
+  }
+
+  private skipSpaces(): void {
+    while (spaces.includes(this.currentChar())) {
+      this.next()
+    }
   }
 
   private currentChar(): string {

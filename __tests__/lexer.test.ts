@@ -49,6 +49,23 @@ describe('nextToken', () => {
           literal: '2'
         }
       ]
+    },
+    {
+      input: ' 1\t + 2  ',
+      expected: [
+        {
+          tokenType: 'INTEGER',
+          literal: '1'
+        },
+        {
+          tokenType: 'PLUS',
+          literal: '+'
+        },
+        {
+          tokenType: 'INTEGER',
+          literal: '2'
+        }
+      ]
     }
   ]
 
