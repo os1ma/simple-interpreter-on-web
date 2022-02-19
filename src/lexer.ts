@@ -19,7 +19,11 @@ export class Lexer {
         token = new Token('PLUS', char)
         break
       default:
-        token = new Token('INTEGER', this.readInteger())
+        if (this.isDigit(char)) {
+          token = new Token('INTEGER', this.readInteger())
+        } else {
+          throw new Error(`Invalid char. char = ${char}`)
+        }
     }
     this.next()
     return token
@@ -33,11 +37,15 @@ export class Lexer {
     this.currentPosition++
   }
 
+  private isDigit(char: string): boolean {
+    return digits.includes(char)
+  }
+
   private readInteger(): string {
     const startPosition = this.currentPosition
 
     let nextChar = this.input[this.currentPosition + 1]
-    while (digits.includes(nextChar)) {
+    while (this.isDigit(nextChar)) {
       this.next()
       nextChar = this.input[this.currentPosition + 1]
     }
