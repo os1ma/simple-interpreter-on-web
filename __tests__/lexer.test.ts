@@ -1,31 +1,71 @@
 import { Lexer } from '../src/lexer'
-import { Token } from '../src/token'
+import { Token, TokenType } from '../src/token'
 
 describe('nextToken', () => {
-  test('123', () => {
-    const lexer = new Lexer('123')
-    expect(lexer.hasNextToken()).toEqual(true)
-    expect(lexer.nextToken()).toEqual(new Token('INTEGER', '123'))
-    expect(lexer.hasNextToken()).toEqual(false)
-  })
+  type TestCase = {
+    input: string
+    expected: {
+      tokenType: TokenType
+      literal: string
+    }[]
+  }
 
-  test('++', () => {
-    const lexer = new Lexer('++')
-    expect(lexer.hasNextToken()).toEqual(true)
-    expect(lexer.nextToken()).toEqual(new Token('PLUS', '+'))
-    expect(lexer.hasNextToken()).toEqual(true)
-    expect(lexer.nextToken()).toEqual(new Token('PLUS', '+'))
-    expect(lexer.hasNextToken()).toEqual(false)
-  })
+  const testCases: TestCase[] = [
+    {
+      input: '123',
+      expected: [
+        {
+          tokenType: 'INTEGER',
+          literal: '123'
+        }
+      ]
+    },
+    {
+      input: '++',
+      expected: [
+        {
+          tokenType: 'PLUS',
+          literal: '+'
+        },
+        {
+          tokenType: 'PLUS',
+          literal: '+'
+        }
+      ]
+    },
+    {
+      input: '10+2',
+      expected: [
+        {
+          tokenType: 'INTEGER',
+          literal: '10'
+        },
+        {
+          tokenType: 'PLUS',
+          literal: '+'
+        },
+        {
+          tokenType: 'INTEGER',
+          literal: '2'
+        }
+      ]
+    }
+  ]
 
-  test('10+2', () => {
-    const lexer = new Lexer('10+2')
-    expect(lexer.hasNextToken()).toEqual(true)
-    expect(lexer.nextToken()).toEqual(new Token('INTEGER', '10'))
-    expect(lexer.hasNextToken()).toEqual(true)
-    expect(lexer.nextToken()).toEqual(new Token('PLUS', '+'))
-    expect(lexer.hasNextToken()).toEqual(true)
-    expect(lexer.nextToken()).toEqual(new Token('INTEGER', '2'))
-    expect(lexer.hasNextToken()).toEqual(false)
+  testCases.forEach((testCase) => {
+    test(testCase.input, () => {
+      const lexer = new Lexer(testCase.input)
+
+      testCase.expected.forEach((expectedElemennt) => {
+        expect(lexer.hasNextToken()).toEqual(true)
+        const expectedToken = new Token(
+          expectedElemennt.tokenType,
+          expectedElemennt.literal
+        )
+        expect(lexer.nextToken()).toEqual(expectedToken)
+      })
+
+      expect(lexer.hasNextToken()).toEqual(false)
+    })
   })
 })

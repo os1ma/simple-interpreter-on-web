@@ -12,4 +12,4 @@ export class Token {
 
 const tokenTypes = ['INTEGER', 'PLUS'] as const
 
-type TokenType = typeof tokenTypes[number]
+export type TokenType = typeof tokenTypes[number]
