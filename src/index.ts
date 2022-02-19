@@ -16,12 +16,22 @@ prompt?.addEventListener('keypress', (event) => {
 
     const lexer = new Lexer(input)
 
-    while (lexer.hasNextToken()) {
-      const token = lexer.nextToken()
+    try {
+      while (lexer.hasNextToken()) {
+        const token = lexer.nextToken()
 
-      const pOutput = document.createElement('p')
-      pOutput.textContent = JSON.stringify(token)
-      history?.appendChild(pOutput)
+        const pOutput = document.createElement('p')
+        pOutput.textContent = JSON.stringify(token)
+        history?.appendChild(pOutput)
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        const pError = document.createElement('p')
+        pError.textContent = e.message
+        history?.appendChild(pError)
+      } else {
+        throw e
+      }
     }
 
     prompt.value = ''
