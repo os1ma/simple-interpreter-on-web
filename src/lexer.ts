@@ -41,7 +41,7 @@ export class Lexer {
         if (this.isDigit(char)) {
           token = new Token('INTEGER', this.readInteger())
         } else {
-          throw new Error(`Invalid char. char = ${char}`)
+          throw new Error(`Invalid char '${char}'.`)
         }
     }
     this.next()
