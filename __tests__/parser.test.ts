@@ -1,26 +1,34 @@
-import { InfixExpression, IntegerLiteral } from '../src/ast'
+import { Expression, InfixExpression, IntegerLiteral } from '../src/ast'
 import { Lexer } from '../src/lexer'
 import { Parser } from '../src/parser'
 import { Token } from '../src/token'
 
 describe('parseExpression', () => {
-  test('1', () => {
-    const lexer = new Lexer('1')
-    const parser = new Parser(lexer)
+  type TestCase = {
+    input: string
+    expected: Expression
+  }
 
-    const expected = new IntegerLiteral(new Token('INTEGER', '1'), 1)
-    expect(parser.parseExpression()).toEqual(expected)
-  })
+  const testCases: TestCase[] = [
+    {
+      input: '1',
+      expected: new IntegerLiteral(new Token('INTEGER', '1'), 1)
+    },
+    {
+      input: '2 + 3',
+      expected: new InfixExpression(
+        new IntegerLiteral(new Token('INTEGER', '2'), 1),
+        new Token('PLUS', '+'),
+        new IntegerLiteral(new Token('INTEGER', '3'), 1)
+      )
+    }
+  ]
 
-  test('2 + 3', () => {
-    const lexer = new Lexer('2 + 3')
-    const parser = new Parser(lexer)
-
-    const expected = new InfixExpression(
-      new IntegerLiteral(new Token('INTEGER', '2'), 1),
-      new Token('PLUS', '+'),
-      new IntegerLiteral(new Token('INTEGER', '3'), 1)
-    )
-    expect(parser.parseExpression()).toEqual(expected)
+  testCases.forEach((testCase) => {
+    test(testCase.input, () => {
+      const lexer = new Lexer(testCase.input)
+      const parser = new Parser(lexer)
+      expect(parser.parseExpression()).toEqual(testCase.expected)
+    })
   })
 })
