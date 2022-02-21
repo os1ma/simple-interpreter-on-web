@@ -27,6 +27,7 @@ export class Parser {
     this.prefixParseFunctions['MINUS'] = this.parsePrefixExpression.bind(this)
 
     this.infixParseFunctions['PLUS'] = this.parseInfixExpression.bind(this)
+    this.infixParseFunctions['ASTERISK'] = this.parseInfixExpression.bind(this)
 
     if (!lexer.hasNextToken()) {
       throw new Error('Lexer is empty.')
