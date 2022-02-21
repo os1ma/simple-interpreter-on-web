@@ -2,6 +2,14 @@ import { Token } from './token'
 
 export interface Expression {}
 
+export class PrefixExpression implements Expression {
+  constructor(private operator: Token, private right: Expression) {}
+
+  toString() {
+    return `(${this.operator}${this.right})`
+  }
+}
+
 export class InfixExpression implements Expression {
   constructor(
     private left: Expression,

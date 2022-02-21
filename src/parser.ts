@@ -1,4 +1,9 @@
-import { Expression, InfixExpression, IntegerLiteral } from './ast'
+import {
+  Expression,
+  InfixExpression,
+  IntegerLiteral,
+  PrefixExpression
+} from './ast'
 import { Lexer } from './lexer'
 import { Token } from './token'
 
@@ -19,6 +24,7 @@ export class Parser {
 
   constructor(private lexer: Lexer) {
     this.prefixParseFunctions['INTEGER'] = this.parseIntegerLiteral.bind(this)
+    this.prefixParseFunctions['MINUS'] = this.parsePrefixExpression.bind(this)
 
     this.infixParseFunctions['PLUS'] = this.parseInfixExpression.bind(this)
 
@@ -70,6 +76,13 @@ export class Parser {
   }
 
   // prefixParseFunctions
+
+  private parsePrefixExpression(): PrefixExpression {
+    const operator = this.currentToken
+    this.nextToken()
+    const right = this.parseExpression()
+    return new PrefixExpression(operator, right)
+  }
 
   private parseIntegerLiteral(): IntegerLiteral {
     const token = this.currentToken
