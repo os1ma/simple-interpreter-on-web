@@ -1,4 +1,5 @@
 import * as _ from 'lodash'
+import { evalExpression } from './evaluator'
 import { Lexer } from './lexer'
 import { LOWEST_PRECEDENCE, Parser } from './parser'
 
@@ -41,6 +42,11 @@ prompt?.addEventListener('keypress', (event) => {
       const pOutput = document.createElement('p')
       pOutput.textContent = expression.toString()
       history?.appendChild(pOutput)
+
+      const result = evalExpression(expression)
+      const pResult = document.createElement('p')
+      pResult.textContent = result.toString()
+      history?.appendChild(pResult)
     } catch (e) {
       if (e instanceof Error) {
         const pError = document.createElement('p')
