@@ -6,7 +6,7 @@ export class PrefixExpression implements Expression {
   constructor(private operator: Token, private right: Expression) {}
 
   toString() {
-    return `(${this.operator}${this.right})`
+    return `(${this.operator.literal}${this.right})`
   }
 }
 
@@ -18,7 +18,7 @@ export class InfixExpression implements Expression {
   ) {}
 
   toString() {
-    return `(${this.left} ${this.operator} ${this.right})`
+    return `(${this.left} ${this.operator.literal} ${this.right})`
   }
 }
 
