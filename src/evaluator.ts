@@ -42,6 +42,12 @@ function evalInfixExpression(expression: InfixExpression): number {
   switch (operatorType) {
     case 'PLUS':
       return leftValue + rightValue
+    case 'MINUS':
+      return leftValue - rightValue
+    case 'ASTERISK':
+      return leftValue * rightValue
+    case 'SLASH':
+      return leftValue / rightValue
     default:
       throw new Error(
         `Unsupported operator type. operatorType = ${operatorType}`

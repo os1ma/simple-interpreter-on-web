@@ -21,6 +21,30 @@ describe('evalExpression', () => {
     {
       input: '1 + 2',
       expected: 3
+    },
+    {
+      input: '1 - 2',
+      expected: -1
+    },
+    {
+      input: '2 * 3',
+      expected: 6
+    },
+    {
+      input: '4 / 2',
+      expected: 2
+    },
+    {
+      input: '2 + 3 * 4',
+      expected: 14
+    },
+    {
+      input: '2 * 3 + 4',
+      expected: 10
+    },
+    {
+      input: '3 * (4 + 5)',
+      expected: 27
     }
   ]
 
