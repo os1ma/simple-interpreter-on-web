@@ -17,6 +17,10 @@ describe('evalExpression', () => {
     {
       input: '-1',
       expected: -1
+    },
+    {
+      input: '1 + 2',
+      expected: 3
     }
   ]
 

@@ -20,13 +20,25 @@ export class PrefixExpression implements Expression {
 
 export class InfixExpression implements Expression {
   constructor(
-    private left: Expression,
-    private operator: Token,
-    private right: Expression
+    private _left: Expression,
+    private _operator: Token,
+    private _right: Expression
   ) {}
 
+  get left(): Expression {
+    return this._left
+  }
+
+  get operator(): Token {
+    return this._operator
+  }
+
+  get right(): Expression {
+    return this._right
+  }
+
   toString() {
-    return `(${this.left} ${this.operator.literal} ${this.right})`
+    return `(${this._left} ${this._operator.literal} ${this._right})`
   }
 }
 
