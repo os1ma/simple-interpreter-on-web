@@ -7,7 +7,7 @@ import {
 
 export function evalExpression(expression: Expression): number {
   if (expression instanceof PrefixExpression) {
-    throw new Error(`Not implemented.`)
+    return evalPrefixExpression(expression)
   } else if (expression instanceof InfixExpression) {
     throw new Error(`Not implemented.`)
   } else if (expression instanceof IntegerLiteral) {
@@ -15,5 +15,21 @@ export function evalExpression(expression: Expression): number {
     return integerLiteral.value
   } else {
     throw new Error(`Invalid expression. expression = ${expression}`)
+  }
+}
+
+function evalPrefixExpression(expression: PrefixExpression): number {
+  const rightValue = evalExpression(expression.right)
+
+  const operatorType = expression.operator.type
+  switch (operatorType) {
+    case 'PLUS':
+      return rightValue
+    case 'MINUS':
+      return -rightValue
+    default:
+      throw new Error(
+        `Unsupported operator type. operatorType = ${operatorType}`
+      )
   }
 }

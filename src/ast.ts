@@ -3,10 +3,18 @@ import { Token } from './token'
 export interface Expression {}
 
 export class PrefixExpression implements Expression {
-  constructor(private operator: Token, private right: Expression) {}
+  constructor(private _operator: Token, private _right: Expression) {}
+
+  get operator(): Token {
+    return this._operator
+  }
+
+  get right(): Expression {
+    return this._right
+  }
 
   toString() {
-    return `(${this.operator.literal}${this.right})`
+    return `(${this._operator.literal}${this._right})`
   }
 }
 
