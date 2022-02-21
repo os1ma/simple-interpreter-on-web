@@ -37,12 +37,15 @@ export class Parser {
   private infixParseFunctions: InfixParseFunctions = {}
 
   constructor(private lexer: Lexer) {
+    this.prefixParseFunctions['PLUS'] = this.parsePrefixExpression.bind(this)
     this.prefixParseFunctions['MINUS'] = this.parsePrefixExpression.bind(this)
     this.prefixParseFunctions['INTEGER'] = this.parseIntegerLiteral.bind(this)
     this.prefixParseFunctions['PARAN_L'] = this.parseGroupExpression.bind(this)
 
     this.infixParseFunctions['PLUS'] = this.parseInfixExpression.bind(this)
+    this.infixParseFunctions['MINUS'] = this.parseInfixExpression.bind(this)
     this.infixParseFunctions['ASTERISK'] = this.parseInfixExpression.bind(this)
+    this.infixParseFunctions['SLASH'] = this.parseInfixExpression.bind(this)
 
     if (!lexer.hasNextToken()) {
       throw new Error('Lexer is empty.')

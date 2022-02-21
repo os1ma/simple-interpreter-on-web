@@ -28,11 +28,34 @@ describe('parseExpression', () => {
       )
     },
     {
+      input: '2 - 3',
+      expected: new InfixExpression(
+        new IntegerLiteral(new Token('INTEGER', '2'), 2),
+        new Token('MINUS', '-'),
+        new IntegerLiteral(new Token('INTEGER', '3'), 3)
+      )
+    },
+    {
       input: '2 * 3',
       expected: new InfixExpression(
         new IntegerLiteral(new Token('INTEGER', '2'), 2),
         new Token('ASTERISK', '*'),
         new IntegerLiteral(new Token('INTEGER', '3'), 3)
+      )
+    },
+    {
+      input: '2 / 3',
+      expected: new InfixExpression(
+        new IntegerLiteral(new Token('INTEGER', '2'), 2),
+        new Token('SLASH', '/'),
+        new IntegerLiteral(new Token('INTEGER', '3'), 3)
+      )
+    },
+    {
+      input: '+1',
+      expected: new PrefixExpression(
+        new Token('PLUS', '+'),
+        new IntegerLiteral(new Token('INTEGER', '1'), 1)
       )
     },
     {
@@ -72,6 +95,18 @@ describe('parseExpression', () => {
         ),
         new Token('PLUS', '+'),
         new IntegerLiteral(new Token('INTEGER', '3'), 3)
+      )
+    },
+    {
+      input: '1 * (2 + 3)',
+      expected: new InfixExpression(
+        new IntegerLiteral(new Token('INTEGER', '1'), 1),
+        new Token('ASTERISK', '*'),
+        new InfixExpression(
+          new IntegerLiteral(new Token('INTEGER', '2'), 2),
+          new Token('PLUS', '+'),
+          new IntegerLiteral(new Token('INTEGER', '3'), 3)
+        )
       )
     }
   ]
