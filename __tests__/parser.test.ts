@@ -49,6 +49,30 @@ describe('parseExpression', () => {
         new Token('PLUS', '+'),
         new IntegerLiteral(new Token('INTEGER', '4'), 4)
       )
+    },
+    {
+      input: '1 + 2 * 3',
+      expected: new InfixExpression(
+        new IntegerLiteral(new Token('INTEGER', '1'), 1),
+        new Token('PLUS', '+'),
+        new InfixExpression(
+          new IntegerLiteral(new Token('INTEGER', '2'), 2),
+          new Token('ASTERISK', '*'),
+          new IntegerLiteral(new Token('INTEGER', '3'), 3)
+        )
+      )
+    },
+    {
+      input: '1 * 2 + 3',
+      expected: new InfixExpression(
+        new InfixExpression(
+          new IntegerLiteral(new Token('INTEGER', '1'), 1),
+          new Token('ASTERISK', '*'),
+          new IntegerLiteral(new Token('INTEGER', '2'), 2)
+        ),
+        new Token('PLUS', '+'),
+        new IntegerLiteral(new Token('INTEGER', '3'), 3)
+      )
     }
   ]
 

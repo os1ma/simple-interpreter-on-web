@@ -73,7 +73,7 @@ export class Parser {
     return this.peekToken !== undefined
   }
 
-  parseExpression(_precedence: number): Expression {
+  parseExpression(precedence: number): Expression {
     const prefixParseFunction =
       this.prefixParseFunctions[this.currentToken.type]
     if (!prefixParseFunction) {
@@ -81,19 +81,23 @@ export class Parser {
         `prefixParseFunction not exists. this.currentToken.type = ${this.currentToken.type}`
       )
     }
-    const leftExpression = prefixParseFunction()
+    let leftExpression = prefixParseFunction()
+    console.log(leftExpression)
 
-    if (!this.hasNextToken()) {
-      return leftExpression
+    const currentPrecedence = precedences[this.currentToken.type]
+    while (this.hasNextToken() && precedence < currentPrecedence) {
+      const infixParseFunction =
+        this.infixParseFunctions[this.currentToken.type]
+      if (!infixParseFunction) {
+        throw new Error(
+          `infixParseFunction not exists. this.currentToken.type = ${this.currentToken.type}`
+        )
+      }
+
+      leftExpression = infixParseFunction(leftExpression)
     }
 
-    const infixParseFunction = this.infixParseFunctions[this.currentToken.type]
-    if (!infixParseFunction) {
-      throw new Error(
-        `infixParseFunction not exists. this.currentToken.type = ${this.currentToken.type}`
-      )
-    }
-    return infixParseFunction(leftExpression)
+    return leftExpression
   }
 
   // prefixParseFunctions
