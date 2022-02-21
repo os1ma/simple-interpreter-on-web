@@ -23,7 +23,11 @@ export class InfixExpression implements Expression {
 }
 
 export class IntegerLiteral implements Expression {
-  constructor(private token: Token, _value: number) {}
+  constructor(private token: Token, private _value: number) {}
+
+  get value(): number {
+    return this._value
+  }
 
   toString() {
     return this.token.literal
