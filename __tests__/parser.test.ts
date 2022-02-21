@@ -83,6 +83,7 @@ describe('parseExpression', () => {
 
       const actual = parser.parseExpression(LOWEST_PRECEDENCE)
       expect(actual).toEqual(testCase.expected)
+      expect(lexer.hasNextToken()).toEqual(false)
     })
   })
 })

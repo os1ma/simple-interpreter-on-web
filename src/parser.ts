@@ -82,7 +82,6 @@ export class Parser {
       )
     }
     let leftExpression = prefixParseFunction()
-    console.log(leftExpression)
 
     const currentPrecedence = precedences[this.currentToken.type]
     while (this.hasNextToken() && precedence < currentPrecedence) {
