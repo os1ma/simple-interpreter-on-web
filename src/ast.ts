@@ -1,8 +1,8 @@
 import { Token } from './token'
 
-export interface Expression {}
+export type Expression = PrefixExpression | InfixExpression | IntegerLiteral
 
-export class PrefixExpression implements Expression {
+export class PrefixExpression {
   constructor(private _operator: Token, private _right: Expression) {}
 
   get operator(): Token {
@@ -18,7 +18,7 @@ export class PrefixExpression implements Expression {
   }
 }
 
-export class InfixExpression implements Expression {
+export class InfixExpression {
   constructor(
     private _left: Expression,
     private _operator: Token,
@@ -42,7 +42,7 @@ export class InfixExpression implements Expression {
   }
 }
 
-export class IntegerLiteral implements Expression {
+export class IntegerLiteral {
   constructor(private token: Token, private _value: number) {}
 
   get value(): number {
