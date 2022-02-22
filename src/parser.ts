@@ -161,7 +161,9 @@ export class Parser {
 
   private parseIdentifier(): Identifier {
     const token = this.currentToken
-    this.nextToken()
+    if (this.hasNextToken()) {
+      this.nextToken()
+    }
     return new Identifier(token)
   }
 

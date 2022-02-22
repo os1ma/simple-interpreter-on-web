@@ -146,6 +146,10 @@ describe('parseExpression', () => {
       )
     },
     {
+      input: 'a',
+      expected: new Identifier(new Token('IDENTIFIER', 'a'))
+    },
+    {
       input: 'a + 2',
       expected: new InfixExpression(
         new Identifier(new Token('IDENTIFIER', 'a')),

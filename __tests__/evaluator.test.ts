@@ -10,6 +10,10 @@ describe('evalStatement', () => {
 
   const testCases: TestCase[] = [
     {
+      inputs: ['let a = 5', 'a'],
+      expected: [undefined, 5]
+    },
+    {
       inputs: ['let a = 5', 'a * 2'],
       expected: [undefined, 10]
     }
