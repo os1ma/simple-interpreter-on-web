@@ -1,15 +1,44 @@
 import {
   Expression,
+  Identifier,
   InfixExpression,
   IntegerLiteral,
-  PrefixExpression
+  LetStatement,
+  PrefixExpression,
+  Statement
 } from '../src/ast'
 
-export function evalExpression(expression: Expression): number {
+type Environment = { [key: string]: number }
+
+export function evalStatement(
+  statement: Statement,
+  env: Environment
+): number | undefined {
+  if (statement instanceof LetStatement) {
+    const value = evalExpression(statement.value, env)
+    env[statement.identifier.literal] = value
+    return undefined
+  } else {
+    const expression = statement as Expression
+    return evalExpression(expression, env)
+  }
+}
+
+export function evalExpression(
+  expression: Expression,
+  env: Environment
+): number {
   if (expression instanceof PrefixExpression) {
-    return evalPrefixExpression(expression)
+    return evalPrefixExpression(expression, env)
   } else if (expression instanceof InfixExpression) {
-    return evalInfixExpression(expression)
+    return evalInfixExpression(expression, env)
+  } else if (expression instanceof Identifier) {
+    const literal = expression.token.literal
+    const value = env[literal]
+    if (!value) {
+      throw new Error(`undefined identifier '${literal}'`)
+    }
+    return value
   } else if (expression instanceof IntegerLiteral) {
     const integerLiteral = expression as IntegerLiteral
     return integerLiteral.value
@@ -18,8 +47,11 @@ export function evalExpression(expression: Expression): number {
   }
 }
 
-function evalPrefixExpression(expression: PrefixExpression): number {
-  const rightValue = evalExpression(expression.right)
+function evalPrefixExpression(
+  expression: PrefixExpression,
+  env: Environment
+): number {
+  const rightValue = evalExpression(expression.right, env)
 
   const operatorType = expression.operator.type
   switch (operatorType) {
@@ -34,9 +66,12 @@ function evalPrefixExpression(expression: PrefixExpression): number {
   }
 }
 
-function evalInfixExpression(expression: InfixExpression): number {
-  const leftValue = evalExpression(expression.left)
-  const rightValue = evalExpression(expression.right)
+function evalInfixExpression(
+  expression: InfixExpression,
+  env: Environment
+): number {
+  const leftValue = evalExpression(expression.left, env)
+  const rightValue = evalExpression(expression.right, env)
 
   const operatorType = expression.operator.type
   switch (operatorType) {
