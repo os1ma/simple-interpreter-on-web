@@ -1,4 +1,4 @@
-import { Token } from './token'
+import { keywordTokenTypes, Token } from './token'
 
 const spaces = [' ', '\t']
 const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -39,7 +39,9 @@ export class Lexer {
         break
       default:
         if (this.isLetter(char)) {
-          token = new Token('IDENTIFIER', this.readIdentifier())
+          const word = this.readWord()
+          const tokenType = keywordTokenTypes[word] || 'IDENTIFIER'
+          token = new Token(tokenType, word)
         } else if (this.isDigit(char)) {
           token = new Token('INTEGER', this.readInteger())
         } else {
@@ -73,7 +75,7 @@ export class Lexer {
     return ('a' <= char && char <= 'z') || ('A' <= char && char <= 'Z')
   }
 
-  private readIdentifier(): string {
+  private readWord(): string {
     return this.readChars(this.isLetter)
   }
 

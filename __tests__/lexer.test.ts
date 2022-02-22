@@ -108,6 +108,19 @@ describe('nextToken', () => {
           literal: '('
         }
       ]
+    },
+    {
+      input: 'let a',
+      expected: [
+        {
+          tokenType: 'LET',
+          literal: 'let'
+        },
+        {
+          tokenType: 'IDENTIFIER',
+          literal: 'a'
+        }
+      ]
     }
   ]
 

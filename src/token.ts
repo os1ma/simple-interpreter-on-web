@@ -22,7 +22,12 @@ const tokenTypes = [
   'ASTERISK',
   'SLASH',
   'PAREN_L',
-  'PAREN_R'
+  'PAREN_R',
+  'LET'
 ] as const
 
 export type TokenType = typeof tokenTypes[number]
+
+export const keywordTokenTypes: { [key: string]: TokenType } = {
+  let: 'LET'
+}
