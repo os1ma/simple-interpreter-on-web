@@ -1,9 +1,11 @@
 import * as _ from 'lodash'
-import { evalExpression } from './evaluator'
+import { evalStatement } from './evaluator'
 import { Lexer } from './lexer'
-import { LOWEST_PRECEDENCE, Parser } from './parser'
+import { Parser } from './parser'
 
 const DEBUG = false
+
+const environment = {}
 
 console.log(_.join(['Hello', 'webpack'], ' '))
 
@@ -43,11 +45,11 @@ prompt?.addEventListener('keypress', (event) => {
 
     const parser = new Parser(new Lexer(input))
     try {
-      const expression = parser.parseExpression(LOWEST_PRECEDENCE)
-      printHistoryAsDebug(`AST: ${expression.toString()}`)
+      const statement = parser.parseStatement()
+      printHistoryAsDebug(`AST: ${statement}`)
 
-      const result = evalExpression(expression)
-      printHistory(result.toString())
+      const result = evalStatement(statement, environment)
+      printHistory(result !== undefined ? result.toString() : 'undefined')
     } catch (e) {
       if (e instanceof Error) {
         printHistory(`Error: ${e.message}`)
