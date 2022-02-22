@@ -3,33 +3,39 @@ import { evalExpression } from './evaluator'
 import { Lexer } from './lexer'
 import { LOWEST_PRECEDENCE, Parser } from './parser'
 
+const DEBUG = false
+
 console.log(_.join(['Hello', 'webpack'], ' '))
 
 const history = document.getElementById('history') as HTMLDivElement
 const prompt = document.getElementById('prompt') as HTMLInputElement
 
+function printHistory(message: string): void {
+  const p = document.createElement('p')
+  p.textContent = message
+  history?.appendChild(p)
+}
+
+function printHistoryAsDebug(message: string): void {
+  if (DEBUG) {
+    printHistory(`[DEBUG] ${message}`)
+  }
+}
+
 prompt?.addEventListener('keypress', (event) => {
   if (event.key == 'Enter') {
     const input = prompt.value
-
-    const pInput = document.createElement('p')
-    pInput.textContent = `> ${input}`
-    history?.appendChild(pInput)
+    printHistory(`> ${input}`)
 
     const lexer = new Lexer(input)
     try {
       while (lexer.hasNextToken()) {
         const token = lexer.nextToken()
-
-        const pOutput = document.createElement('p')
-        pOutput.textContent = JSON.stringify(token)
-        history?.appendChild(pOutput)
+        printHistoryAsDebug(JSON.stringify(token))
       }
     } catch (e) {
       if (e instanceof Error) {
-        const pError = document.createElement('p')
-        pError.textContent = e.message
-        history?.appendChild(pError)
+        printHistory(`Lexer error. ${e.message}`)
       } else {
         throw e
       }
@@ -38,20 +44,13 @@ prompt?.addEventListener('keypress', (event) => {
     const parser = new Parser(new Lexer(input))
     try {
       const expression = parser.parseExpression(LOWEST_PRECEDENCE)
-
-      const pOutput = document.createElement('p')
-      pOutput.textContent = expression.toString()
-      history?.appendChild(pOutput)
+      printHistoryAsDebug(`AST: ${expression.toString()}`)
 
       const result = evalExpression(expression)
-      const pResult = document.createElement('p')
-      pResult.textContent = result.toString()
-      history?.appendChild(pResult)
+      printHistory(result.toString())
     } catch (e) {
       if (e instanceof Error) {
-        const pError = document.createElement('p')
-        pError.textContent = e.message
-        history?.appendChild(pError)
+        printHistory(`Error: ${e.message}`)
       } else {
         throw e
       }
