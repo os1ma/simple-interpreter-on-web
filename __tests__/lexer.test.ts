@@ -110,7 +110,7 @@ describe('nextToken', () => {
       ]
     },
     {
-      input: 'let a',
+      input: 'let a = 123',
       expected: [
         {
           tokenType: 'LET',
@@ -119,6 +119,14 @@ describe('nextToken', () => {
         {
           tokenType: 'IDENTIFIER',
           literal: 'a'
+        },
+        {
+          tokenType: 'ASSIGN',
+          literal: '='
+        },
+        {
+          tokenType: 'INTEGER',
+          literal: '123'
         }
       ]
     }

@@ -1,5 +1,23 @@
 import { Token } from './token'
 
+export type Statement = LetStatement | Expression
+
+export class LetStatement {
+  constructor(
+    _token: Token,
+    private _identifier: Token,
+    private _value: Expression
+  ) {}
+
+  get identifier(): Token {
+    return this._identifier
+  }
+
+  get value(): Expression {
+    return this._value
+  }
+}
+
 export type Expression = PrefixExpression | InfixExpression | IntegerLiteral
 
 export class PrefixExpression {

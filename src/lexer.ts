@@ -37,6 +37,9 @@ export class Lexer {
       case ')':
         token = new Token('PAREN_R', char)
         break
+      case '=':
+        token = new Token('ASSIGN', char)
+        break
       default:
         if (this.isLetter(char)) {
           const word = this.readWord()

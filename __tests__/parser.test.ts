@@ -2,11 +2,30 @@ import {
   Expression,
   InfixExpression,
   IntegerLiteral,
+  LetStatement,
   PrefixExpression
 } from '../src/ast'
 import { Lexer } from '../src/lexer'
 import { LOWEST_PRECEDENCE, Parser } from '../src/parser'
 import { Token } from '../src/token'
+
+describe('parseLetStatement', () => {
+  test('let a = 123', () => {
+    const input = 'let a = 123'
+    const lexer = new Lexer(input)
+    const parser = new Parser(lexer)
+
+    const actual = parser.parseLetStatement()
+    const expected = new LetStatement(
+      new Token('LET', 'let'),
+      new Token('IDENTIFIER', 'a'),
+      new IntegerLiteral(new Token('INTEGER', '123'), 123)
+    )
+
+    expect(actual).toEqual(expected)
+    expect(lexer.hasNextToken()).toEqual(false)
+  })
+})
 
 describe('parseExpression', () => {
   type TestCase = {

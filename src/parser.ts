@@ -2,10 +2,12 @@ import {
   Expression,
   InfixExpression,
   IntegerLiteral,
-  PrefixExpression
+  LetStatement,
+  PrefixExpression,
+  Statement
 } from './ast'
 import { Lexer } from './lexer'
-import { Token } from './token'
+import { Token, TokenType } from './token'
 
 export const LOWEST_PRECEDENCE = 0
 const SUM_PRECEDENCE = 1
@@ -74,6 +76,47 @@ export class Parser {
 
   private hasNextToken(): boolean {
     return this.peekToken !== undefined
+  }
+
+  private currentTokenType(): TokenType {
+    return this.currentToken.type
+  }
+
+  parseStatement(): Statement {
+    switch (this.currentToken.type) {
+      case 'LET':
+        return this.parseLetStatement()
+      default:
+        return this.parseExpression(LOWEST_PRECEDENCE)
+    }
+  }
+
+  parseLetStatement(): LetStatement {
+    const letToken = this.currentToken
+
+    this.nextToken()
+
+    if (this.currentTokenType() !== 'IDENTIFIER') {
+      throw new Error(
+        `let statement must need identifier but got ${this.currentToken}`
+      )
+    }
+
+    const identifier = this.currentToken
+
+    this.nextToken()
+
+    if (this.currentTokenType() !== 'ASSIGN') {
+      throw new Error(
+        `let statement must need assign but got ${this.currentToken}`
+      )
+    }
+
+    this.nextToken()
+
+    const expression = this.parseExpression(LOWEST_PRECEDENCE)
+
+    return new LetStatement(letToken, identifier, expression)
   }
 
   parseExpression(precedence: number): Expression {

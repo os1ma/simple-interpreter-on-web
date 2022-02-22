@@ -23,6 +23,7 @@ const tokenTypes = [
   'SLASH',
   'PAREN_L',
   'PAREN_R',
+  'ASSIGN',
   'LET'
 ] as const
 
