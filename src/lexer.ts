@@ -32,10 +32,10 @@ export class Lexer {
         token = new Token('SLASH', char)
         break
       case '(':
-        token = new Token('PARAN_L', char)
+        token = new Token('PAREN_L', char)
         break
       case ')':
-        token = new Token('PARAN_R', char)
+        token = new Token('PAREN_R', char)
         break
       default:
         if (this.isDigit(char)) {

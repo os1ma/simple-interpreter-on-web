@@ -18,7 +18,7 @@ const precedences: { [key: string]: number } = {
   MINUS: SUM_PRECEDENCE,
   ASTERISK: PRODUCT_PRECEDENCE,
   SLASH: PRODUCT_PRECEDENCE,
-  PARAN_L: GROUP_PRECEDENCE
+  PAREN_L: GROUP_PRECEDENCE
 }
 
 interface PrefixParseFunctions {
@@ -40,7 +40,7 @@ export class Parser {
     this.prefixParseFunctions['PLUS'] = this.parsePrefixExpression.bind(this)
     this.prefixParseFunctions['MINUS'] = this.parsePrefixExpression.bind(this)
     this.prefixParseFunctions['INTEGER'] = this.parseIntegerLiteral.bind(this)
-    this.prefixParseFunctions['PARAN_L'] = this.parseGroupExpression.bind(this)
+    this.prefixParseFunctions['PAREN_L'] = this.parseGroupExpression.bind(this)
 
     this.infixParseFunctions['PLUS'] = this.parseInfixExpression.bind(this)
     this.infixParseFunctions['MINUS'] = this.parseInfixExpression.bind(this)
@@ -86,8 +86,7 @@ export class Parser {
     }
     let leftExpression = prefixParseFunction()
 
-    const currentPrecedence = precedences[this.currentToken.type]
-    while (this.hasNextToken() && precedence < currentPrecedence) {
+    while (this.hasNextToken() && precedence < this.currentPreceedence()) {
       const infixParseFunction =
         this.infixParseFunctions[this.currentToken.type]
       if (!infixParseFunction) {
@@ -100,6 +99,10 @@ export class Parser {
     }
 
     return leftExpression
+  }
+
+  private currentPreceedence(): number {
+    return precedences[this.currentToken.type] || LOWEST_PRECEDENCE
   }
 
   // prefixParseFunctions
@@ -124,8 +127,12 @@ export class Parser {
 
     const expression = this.parseExpression(LOWEST_PRECEDENCE)
 
-    if (this.currentToken.type != 'PARAN_R') {
+    if (this.currentToken.type !== 'PAREN_R') {
       throw new Error(`Invalid token. this.currentToken = ${this.currentToken}`)
+    }
+
+    if (this.hasNextToken()) {
+      this.nextToken()
     }
 
     return expression

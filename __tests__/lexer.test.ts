@@ -87,11 +87,11 @@ describe('nextToken', () => {
           literal: '/'
         },
         {
-          tokenType: 'PARAN_L',
+          tokenType: 'PAREN_L',
           literal: '('
         },
         {
-          tokenType: 'PARAN_R',
+          tokenType: 'PAREN_R',
           literal: ')'
         }
       ]

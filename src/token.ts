@@ -8,6 +8,10 @@ export class Token {
   get literal() {
     return this._literal
   }
+
+  toString(): string {
+    return this.literal
+  }
 }
 
 const tokenTypes = [
@@ -16,8 +20,8 @@ const tokenTypes = [
   'MINUS',
   'ASTERISK',
   'SLASH',
-  'PARAN_L',
-  'PARAN_R'
+  'PAREN_L',
+  'PAREN_R'
 ] as const
 
 export type TokenType = typeof tokenTypes[number]
