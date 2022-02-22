@@ -1,5 +1,6 @@
 import {
   Expression,
+  Identifier,
   InfixExpression,
   IntegerLiteral,
   LetStatement,
@@ -41,6 +42,7 @@ export class Parser {
   constructor(private lexer: Lexer) {
     this.prefixParseFunctions['PLUS'] = this.parsePrefixExpression.bind(this)
     this.prefixParseFunctions['MINUS'] = this.parsePrefixExpression.bind(this)
+    this.prefixParseFunctions['IDENTIFIER'] = this.parseIdentifier.bind(this)
     this.prefixParseFunctions['INTEGER'] = this.parseIntegerLiteral.bind(this)
     this.prefixParseFunctions['PAREN_L'] = this.parseGroupExpression.bind(this)
 
@@ -155,6 +157,12 @@ export class Parser {
     this.nextToken()
     const right = this.parseExpression(PREFIX_PRECEDENCE)
     return new PrefixExpression(operator, right)
+  }
+
+  private parseIdentifier(): Identifier {
+    const token = this.currentToken
+    this.nextToken()
+    return new Identifier(token)
   }
 
   private parseIntegerLiteral(): IntegerLiteral {

@@ -1,5 +1,6 @@
 import {
   Expression,
+  Identifier,
   InfixExpression,
   IntegerLiteral,
   LetStatement,
@@ -142,6 +143,14 @@ describe('parseExpression', () => {
         ),
         new Token('PLUS', '+'),
         new IntegerLiteral(new Token('INTEGER', '4'), 4)
+      )
+    },
+    {
+      input: 'a + 2',
+      expected: new InfixExpression(
+        new Identifier(new Token('IDENTIFIER', 'a')),
+        new Token('PLUS', '+'),
+        new IntegerLiteral(new Token('INTEGER', '2'), 2)
       )
     }
   ]

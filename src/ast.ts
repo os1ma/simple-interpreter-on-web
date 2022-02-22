@@ -18,7 +18,11 @@ export class LetStatement {
   }
 }
 
-export type Expression = PrefixExpression | InfixExpression | IntegerLiteral
+export type Expression =
+  | PrefixExpression
+  | InfixExpression
+  | Identifier
+  | IntegerLiteral
 
 export class PrefixExpression {
   constructor(private _operator: Token, private _right: Expression) {}
@@ -57,6 +61,14 @@ export class InfixExpression {
 
   toString() {
     return `(${this._left} ${this._operator.literal} ${this._right})`
+  }
+}
+
+export class Identifier {
+  constructor(private _token: Token) {}
+
+  get token(): Token {
+    return this._token
   }
 }
 
