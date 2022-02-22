@@ -15,6 +15,7 @@ export class Token {
 }
 
 const tokenTypes = [
+  'IDENTIFIER',
   'INTEGER',
   'PLUS',
   'MINUS',

@@ -95,6 +95,19 @@ describe('nextToken', () => {
           literal: ')'
         }
       ]
+    },
+    {
+      input: 'abc(',
+      expected: [
+        {
+          tokenType: 'IDENTIFIER',
+          literal: 'abc'
+        },
+        {
+          tokenType: 'PAREN_L',
+          literal: '('
+        }
+      ]
     }
   ]
 

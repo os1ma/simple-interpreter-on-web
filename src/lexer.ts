@@ -38,7 +38,9 @@ export class Lexer {
         token = new Token('PAREN_R', char)
         break
       default:
-        if (this.isDigit(char)) {
+        if (this.isLetter(char)) {
+          token = new Token('IDENTIFIER', this.readIdentifier())
+        } else if (this.isDigit(char)) {
           token = new Token('INTEGER', this.readInteger())
         } else {
           throw new Error(`Invalid character '${char}'.`)
@@ -67,15 +69,27 @@ export class Lexer {
     this.currentPosition++
   }
 
+  private isLetter(char: string): boolean {
+    return ('a' <= char && char <= 'z') || ('A' <= char && char <= 'Z')
+  }
+
+  private readIdentifier(): string {
+    return this.readChars(this.isLetter)
+  }
+
   private isDigit(char: string): boolean {
     return digits.includes(char)
   }
 
   private readInteger(): string {
+    return this.readChars(this.isDigit)
+  }
+
+  private readChars(conditionFunction: (char: string) => boolean) {
     const startPosition = this.currentPosition
 
     let nextChar = this.input[this.currentPosition + 1]
-    while (this.isDigit(nextChar)) {
+    while (conditionFunction(nextChar)) {
       this.next()
       nextChar = this.input[this.currentPosition + 1]
     }
