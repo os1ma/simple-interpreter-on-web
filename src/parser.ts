@@ -1,4 +1,5 @@
 import {
+  BooleanLiteral,
   Expression,
   Identifier,
   InfixExpression,
@@ -44,6 +45,8 @@ export class Parser {
     this.prefixParseFunctions['MINUS'] = this.parsePrefixExpression.bind(this)
     this.prefixParseFunctions['IDENTIFIER'] = this.parseIdentifier.bind(this)
     this.prefixParseFunctions['INTEGER'] = this.parseIntegerLiteral.bind(this)
+    this.prefixParseFunctions['TRUE'] = this.parseBooleanLiteral.bind(this)
+    this.prefixParseFunctions['FALSE'] = this.parseBooleanLiteral.bind(this)
     this.prefixParseFunctions['PAREN_L'] = this.parseGroupExpression.bind(this)
 
     this.infixParseFunctions['PLUS'] = this.parseInfixExpression.bind(this)
@@ -173,6 +176,15 @@ export class Parser {
       this.nextToken()
     }
     return new IntegerLiteral(token, Number(token.literal))
+  }
+
+  private parseBooleanLiteral(): BooleanLiteral {
+    const token = this.currentToken
+    if (this.hasNextToken()) {
+      this.nextToken()
+    }
+    const value = token.type === 'TRUE'
+    return new BooleanLiteral(token, value)
   }
 
   private parseGroupExpression(): Expression {

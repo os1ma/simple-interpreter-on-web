@@ -1,4 +1,5 @@
 import {
+  BooleanLiteral,
   Expression,
   Identifier,
   InfixExpression,
@@ -156,6 +157,14 @@ describe('parseExpression', () => {
         new Token('PLUS', '+'),
         new IntegerLiteral(new Token('INTEGER', '2'), 2)
       )
+    },
+    {
+      input: 'true',
+      expected: new BooleanLiteral(new Token('TRUE', 'true'), true)
+    },
+    {
+      input: 'false',
+      expected: new BooleanLiteral(new Token('FALSE', 'false'), false)
     }
   ]
 

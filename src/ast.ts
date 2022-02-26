@@ -23,6 +23,7 @@ export type Expression =
   | InfixExpression
   | Identifier
   | IntegerLiteral
+  | BooleanLiteral
 
 export class PrefixExpression {
   constructor(private _operator: Token, private _right: Expression) {}
@@ -76,6 +77,18 @@ export class IntegerLiteral {
   constructor(private token: Token, private _value: number) {}
 
   get value(): number {
+    return this._value
+  }
+
+  toString() {
+    return this.token.literal
+  }
+}
+
+export class BooleanLiteral {
+  constructor(private token: Token, private _value: boolean) {}
+
+  get value(): boolean {
     return this._value
   }
 
