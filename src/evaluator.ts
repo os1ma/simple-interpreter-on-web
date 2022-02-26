@@ -1,4 +1,5 @@
 import {
+  BooleanLiteral,
   Expression,
   Identifier,
   InfixExpression,
@@ -24,10 +25,7 @@ export function evalStatement(
   }
 }
 
-export function evalExpression(
-  expression: Expression,
-  env: Environment
-): number {
+export function evalExpression(expression: Expression, env: Environment): any {
   if (expression instanceof PrefixExpression) {
     return evalPrefixExpression(expression, env)
   } else if (expression instanceof InfixExpression) {
@@ -42,6 +40,9 @@ export function evalExpression(
   } else if (expression instanceof IntegerLiteral) {
     const integerLiteral = expression as IntegerLiteral
     return integerLiteral.value
+  } else if (expression instanceof BooleanLiteral) {
+    const booleanLiteral = expression as BooleanLiteral
+    return booleanLiteral.value
   } else {
     throw new Error(`Invalid expression. expression = ${expression}`)
   }

@@ -38,7 +38,7 @@ describe('evalStatement', () => {
 })
 
 describe('evalExpression', () => {
-  type TestCase = { input: string; expected: number }
+  type TestCase = { input: string; expected: any }
 
   const testCases: TestCase[] = [
     {
@@ -80,6 +80,14 @@ describe('evalExpression', () => {
     {
       input: '3 * (4 + 5)',
       expected: 27
+    },
+    {
+      input: 'true',
+      expected: true
+    },
+    {
+      input: 'false',
+      expected: false
     }
   ]
 
