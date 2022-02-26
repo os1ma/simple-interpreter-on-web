@@ -17,6 +17,8 @@ export class Token {
 const tokenTypes = [
   'IDENTIFIER',
   'INTEGER',
+  'TRUE',
+  'FALSE',
   'PLUS',
   'MINUS',
   'ASTERISK',
@@ -30,5 +32,7 @@ const tokenTypes = [
 export type TokenType = typeof tokenTypes[number]
 
 export const keywordTokenTypes: { [key: string]: TokenType } = {
+  true: 'TRUE',
+  false: 'FALSE',
   let: 'LET'
 }

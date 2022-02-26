@@ -21,6 +21,24 @@ describe('nextToken', () => {
       ]
     },
     {
+      input: 'true',
+      expected: [
+        {
+          tokenType: 'TRUE',
+          literal: 'true'
+        }
+      ]
+    },
+    {
+      input: 'false',
+      expected: [
+        {
+          tokenType: 'FALSE',
+          literal: 'false'
+        }
+      ]
+    },
+    {
       input: '++',
       expected: [
         {
