@@ -9,8 +9,13 @@ const environment = {}
 
 console.log(_.join(['Hello', 'webpack'], ' '))
 
+const interpreter = document.getElementById('interpreter') as HTMLDListElement
 const history = document.getElementById('history') as HTMLDivElement
 const prompt = document.getElementById('prompt') as HTMLInputElement
+
+interpreter.addEventListener('click', () => {
+  prompt.focus()
+})
 
 function printHistory(message: string): void {
   const p = document.createElement('p')

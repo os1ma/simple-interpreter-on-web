@@ -1,0 +1,22 @@
+#interpreter {
+  background-color: black;
+  color: white;
+  font-size: 14px;
+
+  width: 400px;
+  height: 600px;
+}
+
+#prompt {
+  background-color: black;
+  color: white;
+  font-size: 14px;
+
+  border: none;
+
+  width: 380px;
+}
+
+#prompt:focus {
+  outline: none;
+}
