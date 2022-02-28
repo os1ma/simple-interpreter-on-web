@@ -25,6 +25,8 @@ const tokenTypes = [
   'SLASH',
   'PAREN_L',
   'PAREN_R',
+  'BRACE_L',
+  'BRACE_R',
   'NOT',
   'EQ',
   'NEQ',
@@ -33,7 +35,9 @@ const tokenTypes = [
   'LEQ',
   'GEQ',
   'LET',
-  'ASSIGN'
+  'ASSIGN',
+  'IF',
+  'ELSE'
 ] as const
 
 export type TokenType = typeof tokenTypes[number]
@@ -41,5 +45,7 @@ export type TokenType = typeof tokenTypes[number]
 export const keywordTokenTypes: { [key: string]: TokenType } = {
   true: 'TRUE',
   false: 'FALSE',
-  let: 'LET'
+  let: 'LET',
+  if: 'IF',
+  else: 'ELSE'
 }

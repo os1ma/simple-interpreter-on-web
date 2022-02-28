@@ -2,6 +2,7 @@ import {
   BooleanLiteral,
   Expression,
   Identifier,
+  IfExpression,
   InfixExpression,
   IntegerLiteral,
   LetStatement,
@@ -232,5 +233,39 @@ describe('parseExpression', () => {
       expect(actual).toEqual(testCase.expected)
       expect(lexer.hasNextToken()).toEqual(false)
     })
+  })
+})
+
+describe('parseIfExpression', () => {
+  test('if (true) { 1 }', () => {
+    const input = 'if (true) { 1 }'
+    const lexer = new Lexer(input)
+    const parser = new Parser(lexer)
+
+    const actual = parser.parseIfExpression()
+    const expected = new IfExpression(
+      new Token('IF', 'if'),
+      new BooleanLiteral(new Token('TRUE', 'true'), true),
+      new IntegerLiteral(new Token('INTEGER', '1'), 1),
+      undefined
+    )
+    expect(actual).toEqual(expected)
+    expect(lexer.hasNextToken()).toEqual(false)
+  })
+
+  test('if (true) { 1 } else { 2 }', () => {
+    const input = 'if (true) { 1 } else { 2 }'
+    const lexer = new Lexer(input)
+    const parser = new Parser(lexer)
+
+    const actual = parser.parseIfExpression()
+    const expected = new IfExpression(
+      new Token('IF', 'if'),
+      new BooleanLiteral(new Token('TRUE', 'true'), true),
+      new IntegerLiteral(new Token('INTEGER', '1'), 1),
+      new IntegerLiteral(new Token('INTEGER', '2'), 2)
+    )
+    expect(actual).toEqual(expected)
+    expect(lexer.hasNextToken()).toEqual(false)
   })
 })

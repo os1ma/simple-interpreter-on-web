@@ -2,6 +2,7 @@ import {
   BooleanLiteral,
   Expression,
   Identifier,
+  IfExpression,
   InfixExpression,
   IntegerLiteral,
   LetStatement,
@@ -57,6 +58,7 @@ export class Parser {
     this.prefixParseFunctions['FALSE'] = this.parseBooleanLiteral.bind(this)
     this.prefixParseFunctions['PAREN_L'] = this.parseGroupExpression.bind(this)
     this.prefixParseFunctions['NOT'] = this.parsePrefixExpression.bind(this)
+    this.prefixParseFunctions['IF'] = this.parseIfExpression.bind(this)
 
     this.infixParseFunctions['PLUS'] = this.parseInfixExpression.bind(this)
     this.infixParseFunctions['MINUS'] = this.parseInfixExpression.bind(this)
@@ -216,6 +218,77 @@ export class Parser {
     }
 
     return expression
+  }
+
+  parseIfExpression(): IfExpression {
+    const token = this.currentToken
+
+    this.nextToken()
+
+    if (this.currentTokenType() !== 'PAREN_L') {
+      throw new Error(
+        `Invalid if statement. this.currentToken = ${this.currentToken}`
+      )
+    }
+
+    this.nextToken()
+
+    const condition = this.parseExpression(LOWEST_PRECEDENCE)
+
+    if (this.currentTokenType() !== 'PAREN_R') {
+      throw new Error(
+        `Invalid if statement. this.currentToken = ${this.currentToken}`
+      )
+    }
+
+    this.nextToken()
+
+    if (this.currentTokenType() !== 'BRACE_L') {
+      throw new Error(
+        `Invalid if statement. this.currentToken = ${this.currentToken}`
+      )
+    }
+
+    this.nextToken()
+
+    const consequence = this.parseStatement()
+
+    if (this.currentTokenType() !== 'BRACE_R') {
+      throw new Error(
+        `Invalid if statement. this.currentToken = ${this.currentToken}`
+      )
+    }
+
+    if (this.hasNextToken()) {
+      this.nextToken()
+    }
+
+    let alternative: Statement | undefined = undefined
+    if (this.currentTokenType() === 'ELSE') {
+      this.nextToken()
+
+      if (this.currentTokenType() !== 'BRACE_L') {
+        throw new Error(
+          `Invalid if statement. this.currentToken = ${this.currentToken}`
+        )
+      }
+
+      this.nextToken()
+
+      alternative = this.parseStatement()
+
+      if (this.currentTokenType() !== 'BRACE_R') {
+        throw new Error(
+          `Invalid if statement. this.currentToken = ${this.currentToken}`
+        )
+      }
+
+      if (this.hasNextToken()) {
+        this.nextToken()
+      }
+    }
+
+    return new IfExpression(token, condition, consequence, alternative)
   }
 
   // infixParseFunctions

@@ -38,6 +38,12 @@ export class Lexer {
       case ')':
         token = new Token('PAREN_R', char)
         break
+      case '{':
+        token = new Token('BRACE_L', char)
+        break
+      case '}':
+        token = new Token('BRACE_R', char)
+        break
       case '=':
         if (peeked === '=') {
           token = new Token('EQ', char + peeked)

@@ -235,6 +235,19 @@ describe('nextToken', () => {
           literal: '123'
         }
       ]
+    },
+    {
+      input: 'if else',
+      expected: [
+        {
+          tokenType: 'IF',
+          literal: 'if'
+        },
+        {
+          tokenType: 'ELSE',
+          literal: 'else'
+        }
+      ]
     }
   ]
 

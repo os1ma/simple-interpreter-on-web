@@ -24,6 +24,7 @@ export type Expression =
   | Identifier
   | IntegerLiteral
   | BooleanLiteral
+  | IfExpression
 
 export class PrefixExpression {
   constructor(private _operator: Token, private _right: Expression) {}
@@ -94,5 +95,20 @@ export class BooleanLiteral {
 
   toString() {
     return this.token.literal
+  }
+}
+
+export class IfExpression {
+  constructor(
+    private token: Token,
+    private condition: Expression,
+    private consequence: Statement,
+    private alternative: Statement | undefined
+  ) {}
+
+  toString() {
+    return `${this.token.literal} ${this.condition} ${this.consequence}${
+      this.alternative !== undefined ? ' ' + this.alternative : ''
+    }`
   }
 }
