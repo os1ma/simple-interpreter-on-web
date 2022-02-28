@@ -88,6 +88,78 @@ describe('evalExpression', () => {
     {
       input: 'false',
       expected: false
+    },
+    {
+      input: '!true',
+      expected: false
+    },
+    {
+      input: '!false',
+      expected: true
+    },
+    {
+      input: 'true == true',
+      expected: true
+    },
+    {
+      input: 'true == false',
+      expected: false
+    },
+    {
+      input: 'false == false',
+      expected: true
+    },
+    {
+      input: 'true != true',
+      expected: false
+    },
+    {
+      input: 'true != false',
+      expected: true
+    },
+    {
+      input: 'false != false',
+      expected: false
+    },
+    {
+      input: '1 < 2',
+      expected: true
+    },
+    {
+      input: '2 < 1',
+      expected: false
+    },
+    {
+      input: '1 > 2',
+      expected: false
+    },
+    {
+      input: '2 > 1',
+      expected: true
+    },
+    {
+      input: '1 <= 2',
+      expected: true
+    },
+    {
+      input: '2 <= 2',
+      expected: true
+    },
+    {
+      input: '2 <= 1',
+      expected: false
+    },
+    {
+      input: '1 >= 2',
+      expected: false
+    },
+    {
+      input: '2 >= 2',
+      expected: true
+    },
+    {
+      input: '2 >= 1',
+      expected: true
     }
   ]
 

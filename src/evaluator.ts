@@ -51,7 +51,7 @@ export function evalExpression(expression: Expression, env: Environment): any {
 function evalPrefixExpression(
   expression: PrefixExpression,
   env: Environment
-): number {
+): any {
   const rightValue = evalExpression(expression.right, env)
 
   const operatorType = expression.operator.type
@@ -60,6 +60,8 @@ function evalPrefixExpression(
       return rightValue
     case 'MINUS':
       return -rightValue
+    case 'NOT':
+      return !rightValue
     default:
       throw new Error(
         `Unsupported operator type. operatorType = ${operatorType}`
@@ -70,7 +72,7 @@ function evalPrefixExpression(
 function evalInfixExpression(
   expression: InfixExpression,
   env: Environment
-): number {
+): any {
   const leftValue = evalExpression(expression.left, env)
   const rightValue = evalExpression(expression.right, env)
 
@@ -84,6 +86,18 @@ function evalInfixExpression(
       return leftValue * rightValue
     case 'SLASH':
       return leftValue / rightValue
+    case 'EQ':
+      return leftValue === rightValue
+    case 'NEQ':
+      return leftValue !== rightValue
+    case 'LT':
+      return leftValue < rightValue
+    case 'GT':
+      return leftValue > rightValue
+    case 'LEQ':
+      return leftValue <= rightValue
+    case 'GEQ':
+      return leftValue >= rightValue
     default:
       throw new Error(
         `Unsupported operator type. operatorType = ${operatorType}`
