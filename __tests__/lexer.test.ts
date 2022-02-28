@@ -128,6 +128,94 @@ describe('nextToken', () => {
       ]
     },
     {
+      input: '!true',
+      expected: [
+        {
+          tokenType: 'NOT',
+          literal: '!'
+        },
+        {
+          tokenType: 'TRUE',
+          literal: 'true'
+        }
+      ]
+    },
+    {
+      input: 'true == false',
+      expected: [
+        {
+          tokenType: 'TRUE',
+          literal: 'true'
+        },
+        {
+          tokenType: 'EQ',
+          literal: '=='
+        },
+        {
+          tokenType: 'FALSE',
+          literal: 'false'
+        }
+      ]
+    },
+    {
+      input: 'true != false',
+      expected: [
+        {
+          tokenType: 'TRUE',
+          literal: 'true'
+        },
+        {
+          tokenType: 'NEQ',
+          literal: '!='
+        },
+        {
+          tokenType: 'FALSE',
+          literal: 'false'
+        }
+      ]
+    },
+    {
+      input: '1 < 2 > 3 <= 4 >= 5',
+      expected: [
+        {
+          tokenType: 'INTEGER',
+          literal: '1'
+        },
+        {
+          tokenType: 'LT',
+          literal: '<'
+        },
+        {
+          tokenType: 'INTEGER',
+          literal: '2'
+        },
+        {
+          tokenType: 'GT',
+          literal: '>'
+        },
+        {
+          tokenType: 'INTEGER',
+          literal: '3'
+        },
+        {
+          tokenType: 'LEQ',
+          literal: '<='
+        },
+        {
+          tokenType: 'INTEGER',
+          literal: '4'
+        },
+        {
+          tokenType: 'GEQ',
+          literal: '>='
+        },
+        {
+          tokenType: 'INTEGER',
+          literal: '5'
+        }
+      ]
+    },
+    {
       input: 'let a = 123',
       expected: [
         {

@@ -18,6 +18,7 @@ export class Lexer {
     this.skipSpaces()
 
     const char = this.currentChar()
+    const peeked = this.peekChar()
     switch (char) {
       case '+':
         token = new Token('PLUS', char)
@@ -38,7 +39,36 @@ export class Lexer {
         token = new Token('PAREN_R', char)
         break
       case '=':
-        token = new Token('ASSIGN', char)
+        if (peeked === '=') {
+          token = new Token('EQ', char + peeked)
+          this.next()
+        } else {
+          token = new Token('ASSIGN', char)
+        }
+        break
+      case '!':
+        if (peeked === '=') {
+          token = new Token('NEQ', char + peeked)
+          this.next()
+        } else {
+          token = new Token('NOT', char)
+        }
+        break
+      case '<':
+        if (peeked === '=') {
+          token = new Token('LEQ', char + peeked)
+          this.next()
+        } else {
+          token = new Token('LT', char)
+        }
+        break
+      case '>':
+        if (peeked === '=') {
+          token = new Token('GEQ', char + peeked)
+          this.next()
+        } else {
+          token = new Token('GT', char)
+        }
         break
       default:
         if (this.isLetter(char)) {
@@ -68,6 +98,10 @@ export class Lexer {
 
   private currentChar(): string {
     return this.input[this.currentPosition]
+  }
+
+  private peekChar(): string | undefined {
+    return this.input[this.currentPosition + 1]
   }
 
   private next() {

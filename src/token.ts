@@ -25,8 +25,15 @@ const tokenTypes = [
   'SLASH',
   'PAREN_L',
   'PAREN_R',
-  'ASSIGN',
-  'LET'
+  'NOT',
+  'EQ',
+  'NEQ',
+  'LT',
+  'GT',
+  'LEQ',
+  'GEQ',
+  'LET',
+  'ASSIGN'
 ] as const
 
 export type TokenType = typeof tokenTypes[number]
