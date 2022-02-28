@@ -160,6 +160,22 @@ describe('evalExpression', () => {
     {
       input: '2 >= 1',
       expected: true
+    },
+    {
+      input: 'if (true) { 1 }',
+      expected: 1
+    },
+    {
+      input: 'if (false) { 1 }',
+      expected: undefined
+    },
+    {
+      input: 'if (true) { 1 } else { 2 }',
+      expected: 1
+    },
+    {
+      input: 'if (false) { 1 } else { 2 }',
+      expected: 2
     }
   ]
 

@@ -2,6 +2,7 @@ import {
   BooleanLiteral,
   Expression,
   Identifier,
+  IfExpression,
   InfixExpression,
   IntegerLiteral,
   LetStatement,
@@ -43,6 +44,16 @@ export function evalExpression(expression: Expression, env: Environment): any {
   } else if (expression instanceof BooleanLiteral) {
     const booleanLiteral = expression as BooleanLiteral
     return booleanLiteral.value
+  } else if (expression instanceof IfExpression) {
+    const ifExpression = expression as IfExpression
+    const cond = evalExpression(ifExpression.condition, env)
+    if (cond) {
+      return evalStatement(ifExpression.consequence, env)
+    } else {
+      return evalStatement(ifExpression.alternative!, env)
+    }
+  } else if (expression === undefined) {
+    return undefined
   } else {
     throw new Error(`Invalid expression. expression = ${expression}`)
   }

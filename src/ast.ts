@@ -101,14 +101,26 @@ export class BooleanLiteral {
 export class IfExpression {
   constructor(
     private token: Token,
-    private condition: Expression,
-    private consequence: Statement,
-    private alternative: Statement | undefined
+    private _condition: Expression,
+    private _consequence: Statement,
+    private _alternative: Statement | undefined
   ) {}
 
+  get condition(): Expression {
+    return this._condition
+  }
+
+  get consequence(): Statement {
+    return this._consequence
+  }
+
+  get alternative(): Statement | undefined {
+    return this._alternative
+  }
+
   toString() {
-    return `${this.token.literal} ${this.condition} ${this.consequence}${
-      this.alternative !== undefined ? ' ' + this.alternative : ''
+    return `${this.token.literal} ${this._condition} ${this._consequence}${
+      this._alternative !== undefined ? ' ' + this._alternative : ''
     }`
   }
 }
