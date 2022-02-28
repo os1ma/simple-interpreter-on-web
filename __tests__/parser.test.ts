@@ -165,6 +165,61 @@ describe('parseExpression', () => {
     {
       input: 'false',
       expected: new BooleanLiteral(new Token('FALSE', 'false'), false)
+    },
+    {
+      input: '!true',
+      expected: new PrefixExpression(
+        new Token('NOT', '!'),
+        new BooleanLiteral(new Token('TRUE', 'true'), true)
+      )
+    },
+    {
+      input: 'true == true',
+      expected: new InfixExpression(
+        new BooleanLiteral(new Token('TRUE', 'true'), true),
+        new Token('EQ', '=='),
+        new BooleanLiteral(new Token('TRUE', 'true'), true)
+      )
+    },
+    {
+      input: 'true != true',
+      expected: new InfixExpression(
+        new BooleanLiteral(new Token('TRUE', 'true'), true),
+        new Token('NEQ', '!='),
+        new BooleanLiteral(new Token('TRUE', 'true'), true)
+      )
+    },
+    {
+      input: '1 < 2',
+      expected: new InfixExpression(
+        new IntegerLiteral(new Token('INTEGER', '1'), 1),
+        new Token('LT', '<'),
+        new IntegerLiteral(new Token('INTEGER', '2'), 2)
+      )
+    },
+    {
+      input: '1 > 2',
+      expected: new InfixExpression(
+        new IntegerLiteral(new Token('INTEGER', '1'), 1),
+        new Token('GT', '>'),
+        new IntegerLiteral(new Token('INTEGER', '2'), 2)
+      )
+    },
+    {
+      input: '1 <= 2',
+      expected: new InfixExpression(
+        new IntegerLiteral(new Token('INTEGER', '1'), 1),
+        new Token('LEQ', '<='),
+        new IntegerLiteral(new Token('INTEGER', '2'), 2)
+      )
+    },
+    {
+      input: '1 >= 2',
+      expected: new InfixExpression(
+        new IntegerLiteral(new Token('INTEGER', '1'), 1),
+        new Token('GEQ', '>='),
+        new IntegerLiteral(new Token('INTEGER', '2'), 2)
+      )
     }
   ]
 

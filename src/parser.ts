@@ -12,17 +12,25 @@ import { Lexer } from './lexer'
 import { Token, TokenType } from './token'
 
 export const LOWEST_PRECEDENCE = 0
-const SUM_PRECEDENCE = 1
-const PRODUCT_PRECEDENCE = 2
-const PREFIX_PRECEDENCE = 3
-const GROUP_PRECEDENCE = 4
+const EQUALS_PRECEDENCE = 1
+const LESS_GREATER_PRECEDENCE = 2
+const SUM_PRECEDENCE = 3
+const PRODUCT_PRECEDENCE = 4
+const PREFIX_PRECEDENCE = 5
+const GROUP_PRECEDENCE = 6
 
 const precedences: { [key: string]: number } = {
   PLUS: SUM_PRECEDENCE,
   MINUS: SUM_PRECEDENCE,
   ASTERISK: PRODUCT_PRECEDENCE,
   SLASH: PRODUCT_PRECEDENCE,
-  PAREN_L: GROUP_PRECEDENCE
+  PAREN_L: GROUP_PRECEDENCE,
+  EQ: EQUALS_PRECEDENCE,
+  NEQ: EQUALS_PRECEDENCE,
+  LT: LESS_GREATER_PRECEDENCE,
+  GT: LESS_GREATER_PRECEDENCE,
+  LEQ: LESS_GREATER_PRECEDENCE,
+  GEQ: LESS_GREATER_PRECEDENCE
 }
 
 interface PrefixParseFunctions {
@@ -48,11 +56,18 @@ export class Parser {
     this.prefixParseFunctions['TRUE'] = this.parseBooleanLiteral.bind(this)
     this.prefixParseFunctions['FALSE'] = this.parseBooleanLiteral.bind(this)
     this.prefixParseFunctions['PAREN_L'] = this.parseGroupExpression.bind(this)
+    this.prefixParseFunctions['NOT'] = this.parsePrefixExpression.bind(this)
 
     this.infixParseFunctions['PLUS'] = this.parseInfixExpression.bind(this)
     this.infixParseFunctions['MINUS'] = this.parseInfixExpression.bind(this)
     this.infixParseFunctions['ASTERISK'] = this.parseInfixExpression.bind(this)
     this.infixParseFunctions['SLASH'] = this.parseInfixExpression.bind(this)
+    this.infixParseFunctions['EQ'] = this.parseInfixExpression.bind(this)
+    this.infixParseFunctions['NEQ'] = this.parseInfixExpression.bind(this)
+    this.infixParseFunctions['LT'] = this.parseInfixExpression.bind(this)
+    this.infixParseFunctions['GT'] = this.parseInfixExpression.bind(this)
+    this.infixParseFunctions['LEQ'] = this.parseInfixExpression.bind(this)
+    this.infixParseFunctions['GEQ'] = this.parseInfixExpression.bind(this)
 
     if (!lexer.hasNextToken()) {
       throw new Error('Lexer is empty.')
