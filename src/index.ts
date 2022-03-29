@@ -1,20 +1,25 @@
-import * as _ from 'lodash'
 import { evalStatement } from './evaluator'
 import { Lexer } from './lexer'
 import { Parser } from './parser'
 
-const DEBUG = false
+var ENABLE_DEBUG_LOG = false
 
 const environment = {}
-
-console.log(_.join(['Hello', 'webpack'], ' '))
 
 const interpreter = document.getElementById('interpreter') as HTMLDListElement
 const history = document.getElementById('history') as HTMLDivElement
 const prompt = document.getElementById('prompt') as HTMLInputElement
+const enableDebugLogCheckBox = document.getElementById(
+  'enable-debug-log-checkbox'
+) as HTMLInputElement
 
 interpreter.addEventListener('click', () => {
   prompt.focus()
+})
+
+enableDebugLogCheckBox.addEventListener('change', () => {
+  ENABLE_DEBUG_LOG = enableDebugLogCheckBox.checked
+  console.log(`log level changed. ENABLE_DEBUG_LOG = ${ENABLE_DEBUG_LOG}`)
 })
 
 function printHistory(message: string): void {
@@ -24,7 +29,7 @@ function printHistory(message: string): void {
 }
 
 function printHistoryAsDebug(message: string): void {
-  if (DEBUG) {
+  if (ENABLE_DEBUG_LOG) {
     printHistory(`[DEBUG] ${message}`)
   }
 }
@@ -51,7 +56,6 @@ prompt?.addEventListener('keypress', (event) => {
     const parser = new Parser(new Lexer(input))
     try {
       const statement = parser.parseStatement()
-      printHistoryAsDebug(`AST: ${statement}`)
 
       const result = evalStatement(statement, environment)
       printHistory(result !== undefined ? result.toString() : 'undefined')
