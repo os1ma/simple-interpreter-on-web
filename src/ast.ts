@@ -4,10 +4,14 @@ export type Statement = LetStatement | Expression
 
 export class LetStatement {
   constructor(
-    _token: Token,
+    private _token: Token,
     private _identifier: Token,
     private _value: Expression
   ) {}
+
+  get token(): Token {
+    return this._token
+  }
 
   get identifier(): Token {
     return this._identifier
@@ -36,10 +40,6 @@ export class PrefixExpression {
   get right(): Expression {
     return this._right
   }
-
-  toString() {
-    return `(${this._operator.literal}${this._right})`
-  }
 }
 
 export class InfixExpression {
@@ -60,10 +60,6 @@ export class InfixExpression {
   get right(): Expression {
     return this._right
   }
-
-  toString() {
-    return `(${this._left} ${this._operator.literal} ${this._right})`
-  }
 }
 
 export class Identifier {
@@ -75,36 +71,40 @@ export class Identifier {
 }
 
 export class IntegerLiteral {
-  constructor(private token: Token, private _value: number) {}
+  constructor(private _token: Token, private _value: number) {}
+
+  get token(): Token {
+    return this._token
+  }
 
   get value(): number {
     return this._value
   }
-
-  toString() {
-    return this.token.literal
-  }
 }
 
 export class BooleanLiteral {
-  constructor(private token: Token, private _value: boolean) {}
+  constructor(private _token: Token, private _value: boolean) {}
+
+  get token(): Token {
+    return this._token
+  }
 
   get value(): boolean {
     return this._value
-  }
-
-  toString() {
-    return this.token.literal
   }
 }
 
 export class IfExpression {
   constructor(
-    private token: Token,
+    private _token: Token,
     private _condition: Expression,
     private _consequence: Statement,
     private _alternative: Statement | undefined
   ) {}
+
+  get token(): Token {
+    return this._token
+  }
 
   get condition(): Expression {
     return this._condition
@@ -116,11 +116,5 @@ export class IfExpression {
 
   get alternative(): Statement | undefined {
     return this._alternative
-  }
-
-  toString() {
-    return `${this.token.literal} ${this._condition} ${this._consequence}${
-      this._alternative !== undefined ? ' ' + this._alternative : ''
-    }`
   }
 }

@@ -56,6 +56,7 @@ prompt?.addEventListener('keypress', (event) => {
     const parser = new Parser(new Lexer(input))
     try {
       const statement = parser.parseStatement()
+      printHistoryAsDebug(`AST = ${JSON.stringify(statement)}`)
 
       const result = evalStatement(statement, environment)
       printHistory(result !== undefined ? result.toString() : 'undefined')
