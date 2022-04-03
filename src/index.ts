@@ -1,73 +1,39 @@
-import { evalStatement } from './evaluator'
-import { Lexer } from './lexer'
-import { Parser } from './parser'
+import { Interpreter } from './interpreter'
 
-var ENABLE_DEBUG_LOG = false
-
-const environment = {}
-
-const interpreter = document.getElementById('interpreter') as HTMLDListElement
-const history = document.getElementById('history') as HTMLDivElement
-const prompt = document.getElementById('prompt') as HTMLInputElement
-const enableDebugLogCheckBox = document.getElementById(
+const interpreterElement = document.getElementById(
+  'interpreter'
+) as HTMLDListElement
+const historyElement = document.getElementById('history') as HTMLDivElement
+const promptElement = document.getElementById('prompt') as HTMLInputElement
+const enableDebugLogCheckBoxElement = document.getElementById(
   'enable-debug-log-checkbox'
 ) as HTMLInputElement
 
-interpreter.addEventListener('click', () => {
-  prompt.focus()
+interpreterElement.addEventListener('click', () => {
+  promptElement.focus()
 })
 
-enableDebugLogCheckBox.addEventListener('change', () => {
-  ENABLE_DEBUG_LOG = enableDebugLogCheckBox.checked
-  console.log(`log level changed. ENABLE_DEBUG_LOG = ${ENABLE_DEBUG_LOG}`)
+enableDebugLogCheckBoxElement.addEventListener('change', () => {
+  interpreter.enableDebugLog = enableDebugLogCheckBoxElement.checked
+  console.log(
+    `log level changed. interpreter.enableDebugLog = ${interpreter.enableDebugLog}`
+  )
 })
 
 function printHistory(message: string): void {
   const p = document.createElement('p')
   p.textContent = message
-  history?.appendChild(p)
+  historyElement?.appendChild(p)
 }
 
-function printHistoryAsDebug(message: string): void {
-  if (ENABLE_DEBUG_LOG) {
-    printHistory(`[DEBUG] ${message}`)
-  }
-}
+const interpreter = new Interpreter((message) => printHistory(message))
 
-prompt?.addEventListener('keypress', (event) => {
+promptElement?.addEventListener('keypress', (event) => {
   if (event.key == 'Enter') {
-    const input = prompt.value
-    printHistory(`> ${input}`)
+    const input = promptElement.value
 
-    const lexer = new Lexer(input)
-    try {
-      while (lexer.hasNextToken()) {
-        const token = lexer.nextToken()
-        printHistoryAsDebug(JSON.stringify(token))
-      }
-    } catch (e) {
-      if (e instanceof Error) {
-        printHistory(`Lexer error. ${e.message}`)
-      } else {
-        throw e
-      }
-    }
+    interpreter.handle(input)
 
-    const parser = new Parser(new Lexer(input))
-    try {
-      const statement = parser.parseStatement()
-      printHistoryAsDebug(`AST = ${JSON.stringify(statement)}`)
-
-      const result = evalStatement(statement, environment)
-      printHistory(result !== undefined ? result.toString() : 'undefined')
-    } catch (e) {
-      if (e instanceof Error) {
-        printHistory(`Error: ${e.message}`)
-      } else {
-        throw e
-      }
-    }
-
-    prompt.value = ''
+    promptElement.value = ''
   }
 })
