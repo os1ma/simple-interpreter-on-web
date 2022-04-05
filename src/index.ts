@@ -1,17 +1,22 @@
 import { Interpreter } from './interpreter'
 
+// prompt setting
+
 const interpreterElement = document.getElementById(
   'interpreter'
 ) as HTMLDListElement
-const historyElement = document.getElementById('history') as HTMLDivElement
+
 const promptElement = document.getElementById('prompt') as HTMLInputElement
-const enableDebugLogCheckBoxElement = document.getElementById(
-  'enable-debug-log-checkbox'
-) as HTMLInputElement
 
 interpreterElement.addEventListener('click', () => {
   promptElement.focus()
 })
+
+// enable-debug-log-checkbox setting
+
+const enableDebugLogCheckBoxElement = document.getElementById(
+  'enable-debug-log-checkbox'
+) as HTMLInputElement
 
 enableDebugLogCheckBoxElement.addEventListener('change', () => {
   interpreter.enableDebugLog = enableDebugLogCheckBoxElement.checked
@@ -20,13 +25,17 @@ enableDebugLogCheckBoxElement.addEventListener('change', () => {
   )
 })
 
+// interpreter & history settings
+
+const historyElement = document.getElementById('history') as HTMLDivElement
+
 function printHistory(message: string): void {
   const p = document.createElement('p')
   p.textContent = message
   historyElement?.appendChild(p)
 }
 
-const interpreter = new Interpreter((message) => printHistory(message))
+const interpreter = new Interpreter(printHistory)
 
 promptElement?.addEventListener('keypress', (event) => {
   if (event.key == 'Enter') {
