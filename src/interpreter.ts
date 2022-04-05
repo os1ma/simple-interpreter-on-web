@@ -11,22 +11,8 @@ export class Interpreter {
   handle(input: string): void {
     this.onOutput(`> ${input}`)
 
-    const lexer = new Lexer(input)
     try {
-      while (lexer.hasNextToken()) {
-        const token = lexer.nextToken()
-        this.debugPrint(JSON.stringify(token))
-      }
-    } catch (e) {
-      if (e instanceof Error) {
-        this.onOutput(`Lexer error. ${e.message}`)
-      } else {
-        throw e
-      }
-    }
-
-    const parser = new Parser(new Lexer(input))
-    try {
+      const parser = new Parser(new Lexer(input))
       const statement = parser.parseStatement()
       this.debugPrint(`AST = ${JSON.stringify(statement)}`)
 
